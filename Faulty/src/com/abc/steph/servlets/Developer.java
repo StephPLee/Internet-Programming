@@ -18,31 +18,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import com.abc.steph.lib.*;
-import com.abc.steph.stores.*;
-import com.abc.steph.models.*;
-import com.mysql.jdbc.Statement;
+import com.abc.steph.lib.DButils;
+import com.abc.steph.models.DevModel;
+import com.abc.steph.models.FaultModels;
+import com.abc.steph.stores.DevStore;
+import com.abc.steph.stores.FaultsStore;
 
 /**
- * Servlet implementation class Fault
+ * Servlet implementation class Developer
  */
-@WebServlet(urlPatterns = { "/Faults", "/Fault/*" }, initParams = { @WebInitParam(name = "data-source", value = "jdbc/Faultdb") })
-public class Fault extends HttpServlet {
+@WebServlet(urlPatterns = { "/Devs", "/Dev/*" }, initParams = { @WebInitParam(name = "data-source", value = "jdbc/Faultdb") })
+public class Developer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DataSource _ds = null;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Fault() {
+	public Developer() {
 		super();
 		// TODO Auto-generated constructor stub
-
 	}
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		DButils db = new DButils();
@@ -58,18 +55,18 @@ public class Fault extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("Starting GET");
 		// String args[]=Convertors.SplitRequestPath(request);
-		Iterator<FaultsStore> iterator;
-		FaultModels Faults = new FaultModels(); // Create a new instance of the
+		Iterator<DevStore> iterator;
+		DevModel Devs = new DevModel(); // Create a new instance of the
 												// model
 
-		Faults.setDatasource(_ds);
-		LinkedList<FaultsStore> psl = Faults.getFaults(); // Get a list of all
+		Devs.setDatasource(_ds);
+		LinkedList<DevStore> psl = Devs.getDev(); // Get a list of all
 															// faults
 
 		/* If we want to forward to a jsp page do this */
-		request.setAttribute("Faults", psl); // Set a bean with the list in it
+		request.setAttribute("Devs", psl); // Set a bean with the list in it
 		RequestDispatcher rd = request
-				.getRequestDispatcher("/RenderFaults.jsp");
+				.getRequestDispatcher("/RenderDevs.jsp");
 
 		rd.forward(request, response);
 	}
@@ -89,25 +86,25 @@ public class Fault extends HttpServlet {
 		String driver = "com.mysql.jdbc.Driver";
 		int authorid = 0;
 		Connection Conn;
-		
+
 		try {
 			String name = request.getParameter("name");
-			String catagory = request.getParameter("catagory");
-			String summary = request.getParameter("summary");
-			String description = request.getParameter("description");
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			String email = request.getParameter("email");
 
 			conn = DriverManager
 					.getConnection(url + dbName, "root", "Cl1m8t3;");
 			PreparedStatement pst = (PreparedStatement) conn
-					.prepareStatement("INSERT INTO fault(summary, details, author_idauthor, section_idsection) VALUES (?,?,?,?);");// try2
-			
-				pst.setString(1, summary);
-				pst.setString(2, description);
-				pst.setInt(3, 1);
-				pst.setInt(4, 1);
+					.prepareStatement("INSERT INTO developer(name, username, password, email) VALUES (?,?,?,?);");// try2
+
+			pst.setString(1, name);
+			pst.setString(2, username);
+			pst.setString(3, password);
+			pst.setString(4, email);
 
 			int i = pst.executeUpdate();
-			//conn.commit();
+			// conn.commit();
 			String msg = " ";
 			if (i != 0) {
 				msg = "Record has been inserted";
@@ -124,5 +121,4 @@ public class Fault extends HttpServlet {
 		pw.close();
 
 	}
-
 }

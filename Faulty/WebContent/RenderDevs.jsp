@@ -8,31 +8,31 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Faults List</title>
+<title>Devs List</title>
 </head>
 <body>
-<h1>Faults</h1>
+<h1>Devs</h1>
 <%
 System.out.println("In render");
-List<FaultsStore> lFaults = (List<FaultsStore>)request.getAttribute("Faults");
-if (lFaults==null){
+List<DevStore> lDevs = (List<DevStore>)request.getAttribute("Devs");
+if (lDevs==null){
  %>
-	<p>No faults found</p>
+	<p>No developers found</p>
 	<% 
 }else{
 %>
 
 
 <% 
-Iterator<FaultsStore> iterator;
+Iterator<DevStore> iterator;
 
 
-iterator = lFaults.iterator();     
+iterator = lDevs.iterator();     
 while (iterator.hasNext()){
-	FaultsStore md = (FaultsStore)iterator.next();
+	DevStore md = (DevStore)iterator.next();
 
 	%>
-	<a href="/ac32007examples/Fault/<%=md.getFaultid() %>"><%=md.getFaultSummary() %></a><br/><%
+	<a href="/ac32007examples/Developer/<%=md.getUsername() %>"><%=md.getName() %></a><br/><%
 
 }
 }

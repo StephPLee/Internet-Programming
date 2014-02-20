@@ -9,6 +9,4 @@
 	username="root" password="Cl1m8t3;" 
     jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
 />
-
-
 </Context>

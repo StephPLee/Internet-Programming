@@ -123,6 +123,30 @@ public class DButils {
 			System.out.println("Can not create table "+ex);
 			return;
 		}
+		sqlQuery = "CREATE TABLE IF NOT EXISTS `developer` ("
+				+ "`iddev` INT NOT NULL AUTO_INCREMENT," + "`name` VARCHAR(45) NULL,"
+				+ "`username` VARCHAR(45) NOT NULL," + "`password` VARCHAR(45) NOT NULL,"
+				+ "`email` VARCHAR(45) NOT NULL," + "PRIMARY KEY (`iddev`))" + "ENGINE = InnoDB;";
+
+		try {
+			pmst = Conn.prepareStatement(sqlQuery);
+			pmst.executeUpdate();
+		} catch (Exception ex) {
+			System.out.println("Can not create table "+ex);
+			return;
+		}
+		sqlQuery = "CREATE TABLE IF NOT EXISTS `administrator` ("
+				+ "`idadmin` INT NOT NULL AUTO_INCREMENT," + "`name` VARCHAR(45) NULL,"
+				+ "`username` VARCHAR(45) NOT NULL," + "`password` VARCHAR(45) NOT NULL,"
+				+ "`email` VARCHAR(45) NOT NULL," + "PRIMARY KEY (`idadmin`))" + "ENGINE = InnoDB;";
+
+		try {
+			pmst = Conn.prepareStatement(sqlQuery);
+			pmst.executeUpdate();
+		} catch (Exception ex) {
+			System.out.println("Can not create table "+ex);
+			return;
+		}
 		ResultSet rs=null;
 		sqlQuery="Select count(name) from author as rowcount";
 		try {
