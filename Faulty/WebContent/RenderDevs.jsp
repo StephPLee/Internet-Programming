@@ -29,7 +29,7 @@
 	<%
 		} else {
 	%>
-	<div style="top: 110px; left: 100px; width: 755px; position: absolute; float: left; overflow: hidden; clear: both;">
+	<div style="top: 110px; left: 100px; width: 755px; position: absolute; float: left; overflow: hidden; padding-bottom:20px; margin-bottom:100px">
 		<ul>
 			<%
 				Iterator<DevStore> iterator;
@@ -45,6 +45,7 @@
 				}
 			%>
 		</ul>
+			<input type="button" name="submit" value="Back" id="submit" style="min-height:25px; border-bottom-left-radius:10px; border-bottom-right-radius:10px; bottom: 20px; left: 330px; position: relative" onclick="history.go(-1);"><br>
 	</div>
 	<br><br>
 	</div>

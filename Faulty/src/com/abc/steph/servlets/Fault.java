@@ -24,7 +24,7 @@ import com.abc.steph.models.*;
 /**
  * Servlet implementation class Fault
  */
-@WebServlet(urlPatterns = { "/Faults", "/Faults/*" }, initParams = { @WebInitParam(name = "data-source", value = "jdbc/Faultdb") })
+@WebServlet(urlPatterns = { "/Faults", "/Faults/*" }, initParams = { @WebInitParam(name = "data-source", value = "jdbc/StephLeeDB") })
 public class Fault extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DataSource _ds = null;
@@ -44,7 +44,8 @@ public class Fault extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		DButils db = new DButils();
-		_ds = db.assemble(config);
+		db.createSchema();
+		_ds=db.assemble(config);
 	}
 
 	/**
@@ -104,7 +105,7 @@ public class Fault extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 		Connection conn = null;
 		String url = "jdbc:mysql://localhost:3306/";
-		String dbName = "faultdb";
+		String dbName = "StephLeeDB";
 		try {
 			int catagory = Integer.parseInt(request.getParameter("catagory"));
 			String summary = request.getParameter("summary");

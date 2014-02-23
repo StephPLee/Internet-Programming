@@ -29,8 +29,7 @@
 		<%
 			} else {
 		%>
-		<div
-			style="top: 110px; left: 100px; width: 755px; position: absolute; float: left; overflow: hidden;">
+		<div style="top: 50px; left: 90px; width: 755px; position: relative; float: left; overflow: hidden; padding-bottom:20px; margin-bottom:100px">
 			<ul>
 				<%
 					Iterator<FaultsStore> iterator;
@@ -46,12 +45,13 @@
 					}
 				%>
 			</ul>
+			
+		<form name="viewdevs" action="${pageContext.request.contextPath}/Index.jsp">
+			<input type="submit" name="submit" value="Log Out" id="submit" style="min-height:25px; border-bottom-left-radius:10px; border-bottom-right-radius:10px; bottom: 20px; left: 300px; position: relative"><br>
+		</form>
 		</div>
 		<br>
 		<br>
-		<form name="viewdevs" action="${pageContext.request.contextPath}/Index.jsp">
-			<input type="submit" name="submit" value="Log Out" id="submit" style="top: 950px; left: 445px; position: relative"><br>
-		</form>
 	</div>
 </body>
 </html>

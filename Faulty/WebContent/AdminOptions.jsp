@@ -21,8 +21,11 @@
 	</form>
 	<br>
 	<form name="hiredevs" action="${pageContext.request.contextPath}/NewDev.jsp">
-		<input type="submit" name="submit" value="Add a New Developer" id="submit" style="top:450px; left:350px; position: absolute"><br>
+		<input type="submit" name="submit" value="Add a New Developer" id="submit" style="top:350px; left:348px; position: absolute"><br>
 	</form>
 	</div>
+	<form name="viewdevs" action="${pageContext.request.contextPath}/Index.jsp">
+			<input type="submit" name="submit" value="Log Out" id="submit" style="min-height:25px; border-bottom-left-radius:10px; border-bottom-right-radius:10px; top:435px; left:615px; position: absolute"><br>
+		</form>
 </body>
 </html>

@@ -28,19 +28,18 @@
 		} else {
 	%>
 	<div
-		style="top: 230px; left: 240px; width: 475px; position:absolute; float: left; overflow: hidden; clear: both;">
+		style="top: 230px; left: 240px; width: 475px; position:absolute; float: left; overflow: hidden;">
 		Fault Summary:
 		<%=Fault.getFaultSummary()%><br><br> Detailed Description of Fault:
 		<%=Fault.getFaultDetails()%><br><br> Section Fault Relates to:
 		<%=Fault.getFaultSection()%><br><br> Author of the Fault:
 		<%=Fault.getFaultAuthor()%><br>
 	</div>
-			<input type="button" name="submit" value="Log Out" id="submit" style="top:1000px; left:460px; position: absolute" onclick="index.jsp"><br>
+		<input type="button" name="submit" value="Back" id="submit" style="top:485px; left:460px; position: absolute" onclick="history.go(-1);"><br>
 	<br />
 	<%
 		}
 	%>
 	</div>
-
 </body>
 </html>

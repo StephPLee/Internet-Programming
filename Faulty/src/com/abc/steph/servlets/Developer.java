@@ -29,7 +29,7 @@ import com.mysql.jdbc.Statement;
 /**
  * Servlet implementation class Developer
  */
-@WebServlet(urlPatterns = { "/Devs", "/Dev/*" }, initParams = { @WebInitParam(name = "data-source", value = "jdbc/Faultdb") })
+@WebServlet(urlPatterns = { "/Devs", "/Dev/*" }, initParams = { @WebInitParam(name = "data-source", value = "jdbc/StephLeeDB") })
 public class Developer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DataSource _ds = null;
@@ -45,7 +45,8 @@ public class Developer extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		DButils db = new DButils();
-		_ds = db.assemble(config);
+		db.createSchema();
+		_ds=db.assemble(config);
 	}
 
 	/**
@@ -107,7 +108,7 @@ public class Developer extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 		Connection conn = null;
 		String url = "jdbc:mysql://localhost:3306/";
-		String dbName = "faultdb";
+		String dbName = "StephLeeDB";
 		String driver = "com.mysql.jdbc.Driver";
 		Connection Conn;
 
@@ -129,14 +130,16 @@ public class Developer extends HttpServlet {
 
 			int i = pst.executeUpdate();
 			// conn.commit();
-			String msg = " ";
 			if (i != 0) {
-				msg = "Record has been inserted";
-				pw.println("<font size='6' color=blue>" + msg + "</font>");
-
+				request.setAttribute("devMessage","Thank you for your submission!");  
+			    //important forward it back to the login page again.   
+			    RequestDispatcher rd=request.getRequestDispatcher("NewDev.jsp");  
+			    rd.forward(request,response); 
 			} else {
-				msg = "failed to insert the data";
-				pw.println("<font size='6' color=blue>" + msg + "</font>");
+				request.setAttribute("devMessage","Submission wasn't sent!");  
+			    //important forward it back to the login page again.   
+			    RequestDispatcher rd=request.getRequestDispatcher("NewDev.jsp");  
+			    rd.forward(request,response); 
 			}
 			pst.close();
 		} catch (Exception e) {

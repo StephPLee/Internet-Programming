@@ -1,6 +1,7 @@
 package com.abc.steph.lib;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -180,7 +181,15 @@ public class DButils {
 						System.out.println("Can not insert default fault "+ex);
 						return;	
 					}
-					sqlQuery="INSERT INTO `developer` (`name`,`username`,`password`,`email`) VALUES ('Steph','StephPLee','ICanHazChocobos','steph.example@hotmail.com');";
+					sqlQuery="INSERT INTO `developer` (`name`,`username`,`password`,`email`) VALUES ('Steph','username','password','steph.example@hotmail.com');";
+					try {
+						pmst = Conn.prepareStatement(sqlQuery);
+						pmst.executeUpdate();
+					} catch (Exception ex) {
+						System.out.println("Can not insert default fault "+ex);
+						return;	
+					}
+					sqlQuery="INSERT INTO `administrator` (`name`,`username`,`password`,`email`) VALUES ('Stephanie','username','password','steph.example@hotmail.com');";
 					try {
 						pmst = Conn.prepareStatement(sqlQuery);
 						pmst.executeUpdate();
@@ -193,6 +202,29 @@ public class DButils {
 
 		} catch (Exception ex) {
 			System.out.println("Can not select count "+ex);
+			return;
+		}
+
+	}
+	
+	public void createSchema(){
+		String url = "jdbc:mysql://localhost";
+		Connection conn=null;
+		try {
+		   Class.forName ("com.mysql.jdbc.Driver").newInstance ();
+		   conn = DriverManager.getConnection (url, "root", "Cl1m8t3;");
+
+		}catch (Exception et){
+			System.out.println("Can't get conenction to create schema "+et);
+			return;
+		}
+		String sqlcreateSchema="Create database if not exists StephLeeDB;";
+		try{
+			java.sql.Statement statement=conn.createStatement();
+			statement.execute(sqlcreateSchema);
+			conn.close();
+		}catch (Exception et){
+			System.out.println("Can not create schema ");
 			return;
 		}
 

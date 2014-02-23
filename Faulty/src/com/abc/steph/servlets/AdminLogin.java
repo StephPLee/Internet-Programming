@@ -23,7 +23,7 @@ import com.abc.steph.stores.DevStore;
 /**
  * Servlet implementation class DevLogin
  */
-@WebServlet(urlPatterns = { "/AdminLogin" }, initParams = { @WebInitParam(name = "data-source", value = "jdbc/Faultdb") })
+@WebServlet(urlPatterns = { "/AdminLogin" }, initParams = { @WebInitParam(name = "data-source", value = "jdbc/StephLeeDB") })
 public class AdminLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DataSource _ds = null;
@@ -39,7 +39,8 @@ public class AdminLogin extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		DButils db = new DButils();
-		_ds = db.assemble(config);
+		db.createSchema();
+		_ds=db.assemble(config);
 	}
 
 	/**
