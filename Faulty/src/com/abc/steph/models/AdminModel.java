@@ -1,39 +1,43 @@
 package com.abc.steph.models;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.LinkedList;
 
 import javax.sql.DataSource;
 
-import java.sql.*;
+import com.abc.steph.stores.AdminStore;
+import com.abc.steph.stores.DevStore;
 
-import com.abc.steph.stores.*;
-public class FaultModels {
+public class AdminModel {
 	private DataSource _ds = null;
-	public FaultModels(){
-
+	public AdminModel(){
+		
 	}
-
+	
 	public void setDatasource(DataSource _ds){
 		this._ds=_ds;
 		System.out.println("Set Data Source in Model"+_ds.toString());
 	}
-
-    public LinkedList<FaultsStore> getFaults(){
-		LinkedList<FaultsStore> psl = new LinkedList<FaultsStore>();
+	
+	public LinkedList<AdminStore> getAdmins(){
+		LinkedList<AdminStore> psl = new LinkedList<AdminStore>();
 		Connection Conn;
-		FaultsStore ps = null;
+		AdminStore ps = null;
 		ResultSet rs = null;
 		try {
 			Conn = _ds.getConnection();
 		} catch (Exception et) {
 
-			System.out.println("No Connection in Faults Model");
+			System.out.println("No Connection in Devs Model");
 			return null;
 		}
 
 		PreparedStatement pmst = null;
 		Statement stmt = null;
-		String sqlQuery = "select summary,idfault from fault";
+		String sqlQuery = "select * from administrator";
 		try {
 			try {
 				// pmst = Conn.prepareStatement(sqlQuery);
@@ -42,6 +46,7 @@ public class FaultModels {
 				System.out.println("Can't create prepare statement");
 				return null;
 			}
+			System.out.println("Created prepare");
 			try {
 				// rs=pmst.executeQuery();
 				rs = stmt.executeQuery(sqlQuery);
@@ -49,14 +54,19 @@ public class FaultModels {
 				System.out.println("Can not execut query " + et);
 				return null;
 			}
+			System.out.println("Statement executed");
 			if (rs.wasNull()) {
 				System.out.println("result set was null");
 			} else {
+				System.out.println("Well it wasn't null");
 			}
 			while (rs.next()) {
-				ps = new FaultsStore();
-				ps.setFaultid(rs.getString("idfault"));
-				ps.setFaultSummary(rs.getString("summary"));
+				System.out.println("Getting RS");
+				ps = new AdminStore();
+				ps.setID(rs.getString("iddev"));
+				ps.setName(rs.getString("name"));
+				ps.setUsername(rs.getString("username"));
+				ps.setEmail(rs.getString("email"));
 				psl.add(ps);
 			}
 		} catch (Exception ex) {
@@ -73,48 +83,51 @@ public class FaultModels {
 		return psl;
 
 	}
-    
-    public FaultsStore getFault(String id){
+	
+	public String getAdminLogin(String username){
+		String password="";
+    	LinkedList<DevStore> psl = new LinkedList<DevStore>();
 		Connection Conn;
-		FaultsStore ps = null;
+		DevStore ps = null;
 		ResultSet rs = null;
 		try {
 			Conn = _ds.getConnection();
 		} catch (Exception et) {
-			System.out.println("No Connection in Faults Model");
+
+			System.out.println("No Connection in Devs Model");
 			return null;
 		}
-
 		PreparedStatement pmst = null;
 		Statement stmt = null;
-		String sqlQuery = "select * from fault where idfault='"+id+"';";
+		String sqlQuery = "SELECT password FROM administrator WHERE username='"+username+"';";
+		System.out.println("Dev Query " + sqlQuery);
 		try {
 			try {
-				// pmst = Conn.prepareStatement(sqlQuery);
 				stmt = Conn.createStatement();
 			} catch (Exception et) {
 				System.out.println("Can't create prepare statement");
 				return null;
 			}
+			System.out.println("Created prepare");
 			try {
-				// rs=pmst.executeQuery();
 				rs = stmt.executeQuery(sqlQuery);
 			} catch (Exception et) {
 				System.out.println("Can not execut query " + et);
 				return null;
 			}
+			System.out.println("Statement executed");
 			if (rs.wasNull()) {
 				System.out.println("result set was null");
 			} else {
+				System.out.println("Well it wasn't null");
 			}
 			while (rs.next()) {
-				ps = new FaultsStore();
-				ps.setFaultid(rs.getString("idfault"));
-				ps.setFaultSummary(rs.getString("summary"));
-				ps.setFaultDetails(rs.getString("details"));
-				ps.setFaultAuthor(rs.getString("author_idauthor"));
-				ps.setFaultSection(rs.getString("section_idsection"));
+				System.out.println("Getting RS");
+				ps = new DevStore();
+				ps.setPassword(rs.getString("password"));
+				psl.add(ps);
 			}
+			password = ps.getPassword();
 		} catch (Exception ex) {
 			System.out.println("Opps, error in query " + ex);
 			return null;
@@ -126,11 +139,7 @@ public class FaultModels {
 		} catch (Exception ex) {
 			return null;
 		}
-		return ps;
-
-	}
-    
-    public void postFault(String firstname, String lastname, String title, String description, String rarity, String severity){
+		return password;
     	
     }
 }

@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="css/faulty.css" />
 <title>New Fault</title>
 <h1>Please Enter Details of the Fault</h1>
 </head>

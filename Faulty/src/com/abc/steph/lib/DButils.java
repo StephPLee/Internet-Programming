@@ -125,7 +125,7 @@ public class DButils {
 		}
 		sqlQuery = "CREATE TABLE IF NOT EXISTS `developer` ("
 				+ "`iddev` INT NOT NULL AUTO_INCREMENT," + "`name` VARCHAR(45) NULL,"
-				+ "`username` VARCHAR(45) NOT NULL," + "`password` VARCHAR(45) NOT NULL,"
+				+ "`username` VARCHAR(45) NOT NULL UNIQUE," + "`password` VARCHAR(45) NOT NULL,"
 				+ "`email` VARCHAR(45) NOT NULL," + "PRIMARY KEY (`iddev`))" + "ENGINE = InnoDB;";
 
 		try {
@@ -180,6 +180,14 @@ public class DButils {
 						System.out.println("Can not insert default fault "+ex);
 						return;	
 					}
+					sqlQuery="INSERT INTO `developer` (`name`,`username`,`password`,`email`) VALUES ('Steph','StephPLee','ICanHazChocobos','steph.example@hotmail.com');";
+					try {
+						pmst = Conn.prepareStatement(sqlQuery);
+						pmst.executeUpdate();
+					} catch (Exception ex) {
+						System.out.println("Can not insert default fault "+ex);
+						return;	
+					}
 			    }
 			}
 
@@ -187,9 +195,6 @@ public class DButils {
 			System.out.println("Can not select count "+ex);
 			return;
 		}
-
-
- 
 
 	}
 }

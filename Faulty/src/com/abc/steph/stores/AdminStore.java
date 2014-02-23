@@ -1,12 +1,12 @@
 package com.abc.steph.stores;
 
-public class DevStore {
+public class AdminStore {
 	private String ID;
 	private String Name;
 	private String Username;
 	private String Password;
 	private String Email;
-	public DevStore(){
+	public AdminStore(){
 
 	}
 	public String getID() {

@@ -18,11 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import com.abc.steph.lib.Convertors;
 import com.abc.steph.lib.DButils;
 import com.abc.steph.models.DevModel;
 import com.abc.steph.models.FaultModels;
 import com.abc.steph.stores.DevStore;
 import com.abc.steph.stores.FaultsStore;
+import com.mysql.jdbc.Statement;
 
 /**
  * Servlet implementation class Developer
@@ -53,22 +55,45 @@ public class Developer extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Starting GET");
-		// String args[]=Convertors.SplitRequestPath(request);
-		Iterator<DevStore> iterator;
-		DevModel Devs = new DevModel(); // Create a new instance of the
-												// model
+		String args[] = Convertors.SplitRequestPath(request);
+		if (!args[args.length - 1].equals("Devs")) {
+			Iterator<DevStore> iterator;
+			String id;
+			DevModel Devs = new DevModel(); // Create a new instance of
+			id = args[args.length - 1];
+			Devs.setDatasource(_ds);
+			DevStore ps = Devs.getDev(id); // Get a list of
 
-		Devs.setDatasource(_ds);
-		LinkedList<DevStore> psl = Devs.getDev(); // Get a list of all
-															// faults
+			/* If we want to forward to a jsp page do this */
+			request.setAttribute("Devs", ps); // Set a bean with the list in
+												// it
+			RequestDispatcher rd = request
+					.getRequestDispatcher("/DevDetails.jsp");
 
-		/* If we want to forward to a jsp page do this */
-		request.setAttribute("Devs", psl); // Set a bean with the list in it
-		RequestDispatcher rd = request
-				.getRequestDispatcher("/RenderDevs.jsp");
+			rd.forward(request, response);
 
-		rd.forward(request, response);
+		} else {
+
+			// PUT CODE HERE
+
+			Iterator<DevStore> iterator;
+			DevModel Devs = new DevModel(); // Create a new instance of
+													// the
+													// model
+
+			Devs.setDatasource(_ds);
+			LinkedList<DevStore> psl = Devs.getDevs(); // Get a list of
+																// all
+																// faults
+
+			/* If we want to forward to a jsp page do this */
+			request.setAttribute("Devs", psl); // Set a bean with the list in
+													// it
+			RequestDispatcher rd = request
+					.getRequestDispatcher("/RenderDevs.jsp");
+
+			rd.forward(request, response);
+		}
 	}
 
 	/**
@@ -84,7 +109,6 @@ public class Developer extends HttpServlet {
 		String url = "jdbc:mysql://localhost:3306/";
 		String dbName = "faultdb";
 		String driver = "com.mysql.jdbc.Driver";
-		int authorid = 0;
 		Connection Conn;
 
 		try {
